@@ -3,6 +3,7 @@ import KEYS from './keys';
 function keyboardFunctions() {
   const app = document.querySelector('.app');
   let isCaps = false;
+  let isShift = false;
 
   function generateKeyboard() {
     const appContainer = document.createElement('div');
@@ -77,10 +78,10 @@ function keyboardFunctions() {
   function addText(keyValue, keyCode) {
     let newText = keyValue;
     if (keyCode === 'Enter') newText = '\n';
+    if (keyCode === 'Tab') newText = '\t';
     if (keyCode === 'Space') newText = ' ';
     if ((keyCode === 'CapsLock')
         || (keyCode === 'Delete')
-        || (keyCode === 'Tab')
         || (keyCode === 'AltLeft')
         || (keyCode === 'AltRight')
         || (keyCode === 'ShiftLeft')
@@ -93,6 +94,7 @@ function keyboardFunctions() {
     }
     textArea.value += newText;
   }
+
   function doCaps(code, isActive) {
     if (code === 'CapsLock') {
       isCaps = isActive;
@@ -102,12 +104,12 @@ function keyboardFunctions() {
             element.classList.remove('symbol_hidden');
             element.classList.add('symbol_active');
           }
-          if (element.classList.contains('symbol_down')) {
+          if (element.classList.contains('symbol_down') || element.classList.contains('symbol_shift')) {
             element.classList.add('symbol_hidden');
             element.classList.remove('symbol_active');
           }
         } else {
-          if (element.classList.contains('symbol_caps')) {
+          if (element.classList.contains('symbol_caps') || element.classList.contains('symbol_shift')) {
             element.classList.add('symbol_hidden');
             element.classList.remove('symbol_active');
           }
@@ -118,20 +120,45 @@ function keyboardFunctions() {
         }
       });
     }
+  }
 
-    // if ((e.code === "ShiftLeft") || (e.code === "ShiftRight")) {
-
-    // }
+  function doShift(code, isActive) {
+    if ((code === 'ShiftLeft') || (code === 'ShiftRight')) {
+      isShift = isActive;
+      symbols.forEach((element) => {
+        if (isShift) {
+          if (element.classList.contains('symbol_shift')) {
+            element.classList.remove('symbol_hidden');
+            element.classList.add('symbol_active');
+          }
+          if (element.classList.contains('symbol_down') || element.classList.contains('symbol_caps')) {
+            element.classList.add('symbol_hidden');
+            element.classList.remove('symbol_active');
+          }
+        } else {
+          if (element.classList.contains('symbol_shift') || element.classList.contains('symbol_caps')) {
+            element.classList.add('symbol_hidden');
+            element.classList.remove('symbol_active');
+          }
+          if (element.classList.contains('symbol_down')) {
+            element.classList.remove('symbol_hidden');
+            element.classList.add('symbol_active');
+          }
+        }
+      });
+    }
   }
 
   document.addEventListener('keydown', (e) => {
     e.stopPropagation();
     const activeCode = e.code;
-    const acitveButton = document.getElementById(activeCode);
-    if (acitveButton) {
-      acitveButton.classList.add('key_active');
-      doCaps(e.code, e.getModifierState("CapsLock"));
-      addText(e.key, e.code);
+    const activeButton = document.getElementById(activeCode);
+    if (activeButton) {
+      activeButton.classList.add('key_active');
+      doCaps(e.code, e.getModifierState('CapsLock'));
+      doShift(e.code, e.getModifierState('Shift'));
+      const newText = activeButton.querySelector('.symbol_active').innerText;
+      addText(newText, e.code);
     }
   });
 
@@ -141,18 +168,18 @@ function keyboardFunctions() {
     const acitveButton = document.getElementById(activeCode);
     if (acitveButton) {
       acitveButton.classList.remove('key_active');
+      doShift(e.code, e.getModifierState('Shift'));
     }
   });
 
   keyboard.addEventListener('mousedown', (e) => {
     e.stopPropagation();
-    console.log(e.getModifierState("CapsLock"));
     const activeElement = e.target;
     if (activeElement !== keyboard) {
       const activeButton = activeElement.closest('.key');
       if (activeButton) {
         activeButton.classList.add('key_active');
-        
+
         doCaps(activeButton.id, !isCaps);
         addText(activeButton.querySelector('.symbol_active').innerText, activeButton.id);
       }
