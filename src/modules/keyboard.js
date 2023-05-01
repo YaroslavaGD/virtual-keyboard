@@ -93,9 +93,9 @@ function keyboardFunctions() {
     }
     textArea.value += newText;
   }
-  function doCommand(e) {
-    if (e.code === 'CapsLock') {
-      isCaps = e.getModifierState('CapsLock');
+  function doCaps(code, isActive) {
+    if (code === 'CapsLock') {
+      isCaps = isActive;
       symbols.forEach((element) => {
         if (isCaps) {
           if (element.classList.contains('symbol_caps')) {
@@ -130,7 +130,7 @@ function keyboardFunctions() {
     const acitveButton = document.getElementById(activeCode);
     if (acitveButton) {
       acitveButton.classList.add('key_active');
-      doCommand(e);
+      doCaps(e.code, e.getModifierState("CapsLock"));
       addText(e.key, e.code);
     }
   });
@@ -146,11 +146,14 @@ function keyboardFunctions() {
 
   keyboard.addEventListener('mousedown', (e) => {
     e.stopPropagation();
+    console.log(e.getModifierState("CapsLock"));
     const activeElement = e.target;
     if (activeElement !== keyboard) {
       const activeButton = activeElement.closest('.key');
       if (activeButton) {
         activeButton.classList.add('key_active');
+        
+        doCaps(activeButton.id, !isCaps);
         addText(activeButton.querySelector('.symbol_active').innerText, activeButton.id);
       }
     }
