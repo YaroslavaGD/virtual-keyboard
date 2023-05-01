@@ -68,22 +68,6 @@
   transition: all 0.3s;
 }
 
-.key:focus,
-.key:hover {
-  
-  outline: none;
-  color: #ffffff;
-  
-  background-color: #689edb
-}
-
-.key:active {
-  outline: none;
-  color: #ffffff;
-  background-color: #0f77f0;
-  box-shadow: none;
-}
-
 .key + .key {
   margin-left: 7px;
 }
@@ -135,6 +119,25 @@
 
 .key_space {
   flex-grow: 1;
+}
+
+.key:focus {
+  outline: none;
+  border: 1px solid #0f77f0;
+}
+.key:hover {
+  outline: none;
+  color: #ffffff;
+  
+  background-color: #689edb
+}
+
+.key_active,
+.key:active {
+  outline: none;
+  color: #ffffff;
+  background-color: #0f77f0;
+  box-shadow: none;
 }
 
 .symbol_hidden {

@@ -181,8 +181,8 @@ const KEYS = [
     {
       keyId: 'CapsLock',
       class: 'key_capslock',
-      eng: { down: 'capslock', shift: 'capslock', caps: 'capslock' },
-      rus: { down: 'capslock', shift: 'capslock', caps: 'capslock' },
+      eng: { down: 'capslock', shift: 'capslock', caps: 'CAPSLOCK' },
+      rus: { down: 'capslock', shift: 'capslock', caps: 'CAPSLOCK' },
     },
     {
       keyId: 'KeyA',
@@ -365,8 +365,8 @@ const KEYS = [
     {
       keyId: 'Space',
       class: 'key_space',
-      eng: { down: '', shift: '', caps: '' },
-      rus: { down: '', shift: '', caps: '' },
+      eng: { down: ' ', shift: ' ', caps: ' ' },
+      rus: { down: ' ', shift: ' ', caps: ' ' },
     },
     {
       keyId: 'AltRight',
