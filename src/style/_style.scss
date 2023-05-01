@@ -89,7 +89,7 @@
 }
 
 .key_tab,
-.key_caps-lock,
+.key_capslock,
 .key_delete,
 .key_enter,
 .key_shift,
@@ -110,13 +110,12 @@
 }
 
 .key_enter,
-.key_caps-lock {
+.key_capslock {
   width: 119px;
 }
 
 .key_shift {
   width: 187px;
-  // width: 154px;
 }
 
 .key_down .key-inner{

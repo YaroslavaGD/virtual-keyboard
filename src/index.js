@@ -1,6 +1,5 @@
 import './index.html';
 import './index.scss';
-import { mult, sum } from './modules/calc';
+import keyboardFunctions from './modules/keyboard';
 
-mult(2, 4);
-sum(2, 4);
+keyboardFunctions();
