@@ -20,6 +20,7 @@ function keyboardFunctions() {
 
       keyRow.forEach((key) => {
         function createButton() {
+          
           function createSymbol(symbolMode, isHidden) {
             const newSymbol = document.createElement('span');
 
