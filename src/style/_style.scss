@@ -37,7 +37,6 @@
 
 }
 
-
 .keyboard {
   display: flex;
   flex-wrap: wrap;
@@ -99,22 +98,14 @@
 }
 
 .key_shift {
-  width: 187px;
+  width: 218px;
 }
 
-.key_down .key-inner{
-  display: block;
-  transform: rotate(90deg);
-}
-
-.key_up .key-inner{
-  display: block;
-  transform: rotate(-90deg);
-}
-
-.key_left .key-inner{
-  display: block;
-  transform: rotate(-180deg);
+.key_up,
+.key_down,
+.key_left,
+.key_right {
+  font-size: 30px;
 }
 
 .key_space {

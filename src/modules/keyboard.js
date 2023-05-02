@@ -1,11 +1,11 @@
 import KEYS from './keys';
 
-function keyboardFunctions() {
+const keyboardFunctions = () => {
   const app = document.querySelector('.app');
   let isCaps = false;
   let isShift = false;
 
-  function generateKeyboard() {
+  const generateKeyboard = () => {
     const appContainer = document.createElement('div');
     appContainer.classList.add('app__container');
 
@@ -67,7 +67,7 @@ function keyboardFunctions() {
 
     appContainer.appendChild(newKeyboard);
     app.appendChild(appContainer);
-  }
+  };
 
   generateKeyboard();
 
@@ -195,6 +195,6 @@ function keyboardFunctions() {
       if (activeButton) activeButton.classList.remove('key_active');
     }
   });
-}
+};
 
 export default keyboardFunctions;
