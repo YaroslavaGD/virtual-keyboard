@@ -4,6 +4,8 @@
 
 .app {
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -52,6 +54,10 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 6px;
+}
+
+.key-inner_hidden {
+  display: none;
 }
 
 .key {
@@ -133,4 +139,10 @@
 
 .symbol_hidden {
   display: none;
+}
+
+.description {
+  margin: 0;
+  margin-top: 20px;
+  font-weight: 700;
 }

@@ -261,8 +261,8 @@ const KEYS = [
     {
       keyId: 'ShiftLeft',
       class: 'key_shift',
-      eng: { down: 'shift', shift: 'shift', caps: 'shift' },
-      rus: { down: 'shift', shift: 'shift', caps: 'shift' },
+      eng: { down: 'shift', shift: 'SHIFT', caps: 'SHIFT' },
+      rus: { down: 'shift', shift: 'SHIFT', caps: 'SHIFT' },
     },
     {
       keyId: 'IntlBackslash',
@@ -339,8 +339,8 @@ const KEYS = [
     {
       keyId: 'ShiftRight',
       class: 'key_shift',
-      eng: { down: 'shift', shift: 'shift', caps: 'shift' },
-      rus: { down: 'shift', shift: 'shift', caps: 'shift' },
+      eng: { down: 'shift', shift: 'SHIFT', caps: 'SHIFT' },
+      rus: { down: 'shift', shift: 'SHIFT', caps: 'SHIFT' },
     },
   ],
   [
