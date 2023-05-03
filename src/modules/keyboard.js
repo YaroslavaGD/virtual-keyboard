@@ -4,9 +4,9 @@ const keyboardFunctions = () => {
   const app = document.querySelector('.app');
   let isCaps = false;
   let isShift = false;
-  let isAlt = false;
+  let isCtrl = false;
   let language = 'eng';
-  const switchText = 'Switching Language: left ALT + L';
+  const switchText = 'Switching Language: left CTRL + ALT';
   const windowsText = 'The keyboard was created in the Windows OS';
 
   const setLocalStorage = () => {
@@ -112,7 +112,9 @@ const keyboardFunctions = () => {
   const symbols = keyboard.querySelectorAll('.symbol');
   const textArea = document.querySelector('.app__textarea');
 
-  const addText = (activeButton, keyCode) => {
+  const addText = (activeButton, keyCode, e) => {
+    if (e) e.preventDefault();
+
     const currentSymbols = activeButton.querySelector(`.key_${language}`);
     let newText = currentSymbols.querySelector('.symbol_active').innerText;
 
@@ -131,7 +133,72 @@ const keyboardFunctions = () => {
         || (keyCode === 'MetaLeft')) {
       newText = '';
     }
-    textArea.value += newText;
+
+    if (keyCode === 'Backspace') {
+      const startPosition = textArea.selectionStart;
+      const endPosition = textArea.selectionEnd;
+      let newPosition = 0;
+
+      if (startPosition !== 0 || endPosition !== 0) {
+        const altStr = textArea.value;
+
+        // удаляем выделенное
+        if (startPosition === endPosition) {
+          textArea.value = altStr.slice(0, startPosition - 1)
+                           + altStr.slice(startPosition, textArea.value.length);
+        } else if (startPosition === 0) {
+          textArea.value = altStr.slice(endPosition, textArea.value.length);
+        } else {
+          textArea.value = altStr.slice(0, startPosition)
+                           + altStr.slice(endPosition, textArea.value.length);
+        }
+
+        // ставим курсор в нужную позицию
+        textArea.focus();
+        if (startPosition === endPosition) {
+          newPosition = startPosition === 0 ? 0 : startPosition - 1;
+        } else {
+          newPosition = startPosition === 0 ? 0 : startPosition;
+        }
+
+        textArea.selectionStart = newPosition;
+        textArea.selectionEnd = newPosition;
+      }
+    }
+
+    if (keyCode === 'Delete') {
+      const startPosition = textArea.selectionStart;
+      const endPosition = textArea.selectionEnd;
+      let newPosition = 0;
+
+      if (startPosition !== textArea.value.length || endPosition !== textArea.value.length) {
+        const altStr = textArea.value;
+
+        // удаляем выделенное
+        if (startPosition === endPosition) {
+          textArea.value = altStr.slice(0, startPosition)
+                           + altStr.slice(startPosition + 1, textArea.value.length);
+        } else if (startPosition === 0) {
+          textArea.value = altStr.slice(endPosition, textArea.value.length);
+        } else {
+          textArea.value = altStr.slice(0, startPosition)
+                           + altStr.slice(endPosition, textArea.value.length);
+        }
+
+        // ставим курсор в нужную позицию
+        textArea.focus();
+        if (startPosition === endPosition) {
+          newPosition = startPosition === 0 ? 0 : startPosition;
+        } else {
+          newPosition = startPosition === 0 ? 0 : startPosition;
+        }
+
+        textArea.selectionStart = newPosition;
+        textArea.selectionEnd = newPosition;
+      }
+    } else {
+      textArea.value += newText;
+    }
   };
 
   const doCaps = (code, isActive) => {
@@ -196,6 +263,7 @@ const keyboardFunctions = () => {
 
     keyInnerAll.forEach((element) => {
       const elementClassList = element.classList;
+
       if (elementClassList.contains(`key_${language}`)) {
         elementClassList.remove('key-inner_hidden');
       } else {
@@ -205,15 +273,16 @@ const keyboardFunctions = () => {
   };
 
   const checkSwitchLanguage = (keyCode) => {
-    if (keyCode === 'AltLeft') isAlt = true;
-    if (keyCode === 'KeyL' && isAlt) {
-      isAlt = false;
+    if (keyCode === 'ControlLeft') isCtrl = true;
+    if (keyCode === 'AltLeft' && isCtrl) {
+      isCtrl = false;
       switchLanguage();
     }
   };
 
   document.addEventListener('keydown', (e) => {
     e.stopPropagation();
+    e.preventDefault();
     const activeCode = e.code;
     const activeButton = document.getElementById(activeCode);
     if (activeButton) {
@@ -221,7 +290,7 @@ const keyboardFunctions = () => {
       doCaps(e.code, e.getModifierState('CapsLock'));
       doShift(e.code, e.getModifierState('Shift'));
       checkSwitchLanguage(e.code);
-      addText(activeButton, e.code);
+      addText(activeButton, e.code, e);
     }
   });
 
